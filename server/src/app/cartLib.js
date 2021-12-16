@@ -14,6 +14,8 @@ export default class BggCart extends HTMLElement {
                 <button>Order</button>
             `;
         });
+
+        // Perhaps add some event listeners to the buttons, that call order()
     }
 
     disconnectedCallback (){
@@ -21,6 +23,7 @@ export default class BggCart extends HTMLElement {
     }
 
     order (data){
-
+        // eval data property and JSON.stringify it?
+        window.localStorage.setItem('favs', data)
     }
 }

@@ -37,6 +37,7 @@ export default class BggList extends HTMLElement {
         // add some event listeners
         [...this.getElementsByTagName("li")].forEach(
             li => li.addEventListener('click', () => {
+                // Many ways to do this next line:
                 const found = this.#data.find(el => el.name == li.childNodes[3].textContent);
                 this.selected = found;
             })
@@ -55,7 +56,7 @@ export default class BggList extends HTMLElement {
     }
 
     get selected() {
-        this.getAttribute('like');
+        return this.getAttribute('like');
     }
 
     set selected(val) {
