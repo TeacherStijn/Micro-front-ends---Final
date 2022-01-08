@@ -7,12 +7,16 @@ export default class BggList extends HTMLElement {
         /* ready for loading data from API
         You could also use an API (for now with no OATUH authentication from:
         https://github.com/TeacherStijn/public-apis
+
+        The server we were planning is now offline :(
+        https://bgg-json.azurewebsites.net/hot
+
         */
-        fetch('https://bgg-json.azurewebsites.net/hot').then(
+        fetch('https://www.omdbapi.com/?i=tt3896198&apikey=f9fcff2f&s=Batman').then(
             inp=>inp.json()
         ).then(
             resp=> {
-                this.#data = resp;
+                this.#data = resp.Search;
                 this.render();
             }
         );
@@ -27,8 +31,8 @@ export default class BggList extends HTMLElement {
         this.#data.forEach(
             el => {
                 this.innerHTML += `<li>
-                                        <span>${el.rank})</span>
-                                        <span>${el.name}</span>
+                                        <span>${el.Year})</span>
+                                        <span>${el.Title}</span>
                                    </li>`;
             }
         );
@@ -38,7 +42,7 @@ export default class BggList extends HTMLElement {
         [...this.getElementsByTagName("li")].forEach(
             li => li.addEventListener('click', () => {
                 // Many ways to do this next line:
-                const found = this.#data.find(el => el.name == li.childNodes[3].textContent);
+                const found = this.#data.find(el => el.Title == li.childNodes[3].textContent);
                 this.selected = found;
             })
         );
