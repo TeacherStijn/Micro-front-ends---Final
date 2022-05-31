@@ -55,7 +55,7 @@ export default class BggList extends HTMLElement {
 
     // For neatness added this function to monitor attributes added in the observedAttributes() list (so not every 'style=' change for example
     attributeChangedCallback(attrName, oldVal, newVal) {
-        const ev = new CustomEvent('list:like', { bubbles: true, detail: JSON.parse(newVal)}); // bubbles = belangrijk ivm naar body toe
+        const ev = new CustomEvent('list:like', { bubbles: true, detail: JSON.parse(newVal)}); // bubbles = belangrijk ivm naar boven toe
         this.dispatchEvent(ev);
     }
 
