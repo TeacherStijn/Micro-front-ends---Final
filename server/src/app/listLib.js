@@ -5,18 +5,18 @@ export default class BggList extends HTMLElement {
 
     connectedCallback (){
         /* ready for loading data from API
-        You could also use an API (for now with no OATUH authentication from:
+        You could also use an API (for now with no OATUH authentication) from:
         https://github.com/TeacherStijn/public-apis
 
-        The server we were planning is now offline :(
-        https://bgg-json.azurewebsites.net/hot
+        If the server is offline:
+        https://www.omdbapi.com/?i=tt3896198&apikey=f9fcff2f&s=Batman
 
         */
-        fetch('https://www.omdbapi.com/?i=tt3896198&apikey=f9fcff2f&s=Batman').then(
+        fetch('https://bgg-json.azurewebsites.net/hot').then(
             inp=>inp.json()
         ).then(
             resp=> {
-                this.#data = resp.Search;
+                this.#data = resp;
                 this.render();
             }
         );
@@ -31,8 +31,8 @@ export default class BggList extends HTMLElement {
         this.#data.forEach(
             el => {
                 this.innerHTML += `<li>
-                                        <span>${el.Year})</span>
-                                        <span>${el.Title}</span>
+                                        <span>${el.rank})</span>
+                                        <span>${el.name}</span>
                                    </li>`;
             }
         );
@@ -42,20 +42,21 @@ export default class BggList extends HTMLElement {
         [...this.getElementsByTagName("li")].forEach(
             li => li.addEventListener('click', () => {
                 // Many ways to do this next line:
-                const found = this.#data.find(el => el.Title == li.childNodes[3].textContent);
-                this.selected = found;
+                const found = this.#data.find(el => el.name == li.childNodes[3].textContent);
+
+                this.selected = found; // here set selected() method gets called!!
             })
         );
     }
 
-    // For monitoring attribute changes to the following attributes:
+    // Needed for monitoring attribute changes to the following attributes:
     static get observedAttributes() {
         return ['like'];
     }
 
-    // For neatness added this function to monitor attributes added in the observedAttributes() list (so not every 'style=' change for example
+    // For neatness added this function to monitor attributes added in the observedAttributes() list (so not every 'style=' change for example)
     attributeChangedCallback(attrName, oldVal, newVal) {
-        const ev = new CustomEvent('list:like', { bubbles: true, detail: JSON.parse(newVal)}); // bubbles = belangrijk ivm naar boven toe
+        const ev = new CustomEvent('list:like', { bubbles: true, detail: JSON.parse(newVal)}); // bubbles = important for moving 'up'
         this.dispatchEvent(ev);
     }
 
@@ -65,5 +66,6 @@ export default class BggList extends HTMLElement {
 
     set selected(val) {
         this.setAttribute('like', JSON.stringify(val));
+        // this will call attributeChangedCallback because of 'like' being in the observedAttributes() array
     }
 }
