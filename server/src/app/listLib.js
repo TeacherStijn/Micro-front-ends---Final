@@ -23,7 +23,7 @@ export default class BggList extends HTMLElement {
     }
 
     disconnectedCallback (){
-
+        console.log(this.className + ' disconnected from DOM');
     }
 
     render() {

@@ -39,6 +39,12 @@ server.get(['/','/listLib.js'], function(request, response) {
     response.sendFile(__dirname + '/listLib.js');
 });
 
+server.get(['/','/list'], function(request, response) {
+    console.log('Get of /list');
+
+    response.sendFile(__dirname + '/index.html');
+});
+
 /* Webserver starten */
 server.listen(LOCAL_PORT, function() {
     console.log('Server started!');	

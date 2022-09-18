@@ -19,11 +19,11 @@ export default class BggCart extends HTMLElement {
     }
 
     disconnectedCallback (){
-
+        console.log(this.className + ' disconnected from DOM');
     }
 
     order (data){
         // eval data property and JSON.stringify it?
-        window.localStorage.setItem('favs', data)
+        window.localStorage.setItem('favs', JSON.stringify(data));
     }
 }
